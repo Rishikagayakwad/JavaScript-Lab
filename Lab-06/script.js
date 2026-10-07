@@ -1,332 +1,247 @@
-
-// CS302JSC — JavaScript Practical Lab Session 6
-// Hoisting & Closures
-
+// CS302JSC - JavaScript Practical Lab Session 6
+// Topic: Hoisting & Closures
 
 
-console.log("CS302JSC — JavaScript Practical Lab Session 6");
-console.log("Hoisting & Closures");
-
-
-
-// PART 1 — HOISTING WITH VAR
-
-
-console.log("\n========== PART 1 — HOISTING WITH VAR ==========");
+// Part 1 - Hoisting with var
 
 // Task 1.1
-console.log("\nTask 1.1");
-
 console.log(city);
+
 var city = "Haridwar";
-console.log(city);
 
-// Output:
-// undefined
-// Haridwar
+console.log(city);
 
 
 // Task 1.2
-console.log("\nTask 1.2");
-
 function showMessage() {
     console.log(message);
+
     var message = "Hello";
+
     console.log(message);
 }
 
 showMessage();
 
-// Output:
-// undefined
-// Hello
 
-
-// Task 1.3 — Shadow Trap
-console.log("\nTask 1.3 — Shadow Trap");
-
+// Task 1.3 - Shadow Trap
 var name = "global";
 
 function test() {
     console.log(name);
+
     var name = "local";
 }
 
 test();
 
-// Output:
-// undefined
 
-// Explanation:
-// The local var name is hoisted to the top of test(),
-// so it hides the global name before getting its value.
-
-
-// Task 1.4 — Magic Trick
-console.log("\nTask 1.4 — Magic Trick");
-
+// Task 1.4 - Magic Trick
 console.log(food);
+
 var food = "Pizza";
+
 console.log(food);
 
-// Output:
-// undefined
-// Pizza
 
-
-
-// PART 2 — FUNCTION HOISTING
-
-
-console.log("\n========== PART 2 — FUNCTION HOISTING ==========");
-
-
-// Guided Example
-console.log("\nGuided Example — Square");
-
-console.log(square(4));
-
-function square(n) {
-    return n * n;
-}
-
-// Output:
-// 16
-
+// Part 2 - Function Hoisting
 
 // Task 2.1
-console.log("\nTask 2.1");
+// This gives TypeError because sayHi is undefined
 
-// We cannot directly execute the original code here because
-// it would stop the entire Node.js program with a TypeError.
-// So we demonstrate the same error safely.
+/*
+sayHi();
 
-try {
-    sayHi();
-
-    var sayHi = function () {
-        console.log("Hi!");
-    };
-} catch (error) {
-    console.log(error.name + ": " + error.message);
-}
-
-// Expected:
-// TypeError: sayHi is not a function
+var sayHi = function () {
+    console.log("Hi!");
+};
+*/
 
 
-// Task 2.2 — const
-console.log("\nTask 2.2 — const");
+// Task 2.2
+// This gives ReferenceError because of the Temporal Dead Zone
 
-try {
-    console.log(sayHello);
-    const sayHello = function () {
-        console.log("Hello!");
-    };
-} catch (error) {
-    console.log(error.name + ": " + error.message);
-}
+/*
+sayHi();
 
-// Expected:
-// ReferenceError: Cannot access 'sayHello' before initialization
+const sayHi = function () {
+    console.log("Hi!");
+};
+*/
 
 
-// Task 2.3 — Sorting Table
-console.log("\nTask 2.3 — Sorting Table");
-
-console.log("function a() {}       -> Works before its line -> Yes");
-console.log("var b = function() {}  -> Works before its line -> No, TypeError");
-console.log("const c = () => {}     -> Works before its line -> No, ReferenceError");
-console.log("let d = function() {}  -> Works before its line -> No, ReferenceError");
-
-
-// Task 2.4 — Two Functions, Same Name
-console.log("\nTask 2.4 — Two Functions, Same Name");
+// Task 2.3 - Function declaration
 
 console.log(fnA());
 
 function fnA() {
+    return "Function declaration works";
+}
+
+
+// var function expression
+var fnB = function () {
+    return "var function expression";
+};
+
+
+// const function expression
+const fnC = function () {
+    return "const function expression";
+};
+
+
+// let function expression
+let fnD = function () {
+    return "let function expression";
+};
+
+
+// Task 2.4 - Two Functions, Same Name
+
+function sameName() {
     return "First";
 }
 
-function fnA() {
+function sameName() {
     return "Second";
 }
 
-// Output:
-// Second
+console.log(sameName());
 
 
-// Task 2.5 — Top-Down Story
-console.log("\nTask 2.5 — Top-Down Story");
+// Task 2.5 - Top-Down Story
 
 wakeUp();
+
 eatBreakfast();
+
 goToCollege();
+
 
 function wakeUp() {
     console.log("I wake up.");
 }
 
+
 function eatBreakfast() {
     console.log("I eat breakfast.");
 }
+
 
 function goToCollege() {
     console.log("I go to college.");
 }
 
-// Explanation:
-// This works because function declarations are completely hoisted,
-// including their function bodies.
 
-
-
-// PART 3 — LET, CONST AND TEMPORAL DEAD ZONE
-
-
-console.log("\n========== PART 3 — LET, CONST AND TDZ ==========");
-
+// Part 3 - let, const and Temporal Dead Zone
 
 // Task 3.1
-console.log("\nTask 3.1 — const and TDZ");
 
-try {
-    console.log(PI);
-    const PI = 3.14;
-} catch (error) {
-    console.log(error.name + ": " + error.message);
-}
+const PI = 3.14;
 
-// Expected:
-// ReferenceError: Cannot access 'PI' before initialization
+console.log(PI);
 
 
-// Task 3.2 — typeof Surprise
-console.log("\nTask 3.2 — typeof Surprise");
+// Task 3.2
 
-// var
-console.log(typeof x);
 var x = 5;
 
-// let
-try {
-    console.log(typeof y);
-    let y = 5;
-} catch (error) {
-    console.log(error.name + ": " + error.message);
-}
-
-// Output:
-// undefined
-// ReferenceError: Cannot access 'y' before initialization
+console.log(typeof x);
 
 
-// Task 3.3 — Error Detective
-console.log("\nTask 3.3 — Three kinds of mistakes");
+let y = 5;
 
-console.log("undefined -> when a var variable is used before its assignment.");
-console.log("ReferenceError -> when let/const is used inside the TDZ.");
-console.log("TypeError -> when an existing value has the wrong type for the operation.");
+console.log(typeof y);
 
 
-// Task 3.4
-console.log("\nTask 3.4 — Error Detective Examples");
+// Task 3.3
 
-// (a) undefined
-console.log(undefinedExample);
-var undefinedExample = 10;
+console.log("var before assignment gives undefined");
+console.log("let and const before initialization give ReferenceError");
+console.log("Calling a non-function value gives TypeError");
 
-// (b) ReferenceError
-try {
-    console.log(referenceExample);
-    let referenceExample = 10;
-} catch (error) {
-    console.log(error.name + ": " + error.message);
-}
 
-// (c) TypeError
-try {
-    typeExample();
-    var typeExample = 10;
-} catch (error) {
-    console.log(error.name + ": " + error.message);
-}
+// Task 3.4 - Error Detective
 
-// (d) Works perfectly because of function hoisting
-console.log(hoistedExample());
+var a = 10;
 
-function hoistedExample() {
-    return "Function hoisting works!";
+console.log(a);
+
+
+let b = 10;
+
+console.log(b);
+
+
+var c = function () {
+    console.log("c is a function");
+};
+
+c();
+
+
+console.log(d());
+
+function d() {
+    return "Works";
 }
 
 
+// Part 4 - Your First Closure
 
-// PART 4 — YOUR FIRST CLOSURE
-
-
-console.log("\n========== PART 4 — CLOSURES ==========");
-
-
-// Guided Example — Counter
-console.log("\nGuided Example — Counter");
+// Task 4.1 - Counter
 
 function makeCounter() {
     let count = 0;
 
     return function () {
         count++;
+
         return count;
     };
 }
 
+
 const counterA = makeCounter();
+
 const counterB = makeCounter();
 
-console.log(counterA(), counterA(), counterA());
+
+console.log(counterA());
+
+console.log(counterA());
+
+console.log(counterA());
+
+console.log(counterA());
+
+console.log(counterA());
+
+
 console.log(counterB());
 
-// Output:
-// 1 2 3
-// 1
-
-
-// Task 4.1
-console.log("\nTask 4.1 — Counter");
-
-const counter1 = makeCounter();
-const counter2 = makeCounter();
-
-console.log("Counter 1:", counter1());
-console.log("Counter 1:", counter1());
-console.log("Counter 1:", counter1());
-console.log("Counter 1:", counter1());
-console.log("Counter 1:", counter1());
-
-console.log("Counter 2:", counter2());
-console.log("Counter 2:", counter2());
-
-console.log(
-    "Reason: counter2 has its own separate closure and its own copy of count."
-);
+console.log(counterB());
 
 
 // Task 4.2
-console.log("\nTask 4.2 — Private count");
 
-try {
-    console.log(count);
-} catch (error) {
-    console.log(error.name + ": " + error.message);
+function privateCounter() {
+    let count = 0;
+
+    return function () {
+        count++;
+
+        return count;
+    };
 }
 
-// Explanation:
-// count exists only inside makeCounter's scope.
-// This proves closure variables are private from outside access.
+const pc = privateCounter();
+
+console.log(pc());
 
 
-// Task 4.3 — Multiplier Factory
-console.log("\nTask 4.3 — Multiplier Factory");
+// Task 4.3 - Multiplier Factory
 
 function makeMultiplier(n) {
     return function (x) {
@@ -334,17 +249,18 @@ function makeMultiplier(n) {
     };
 }
 
+
 const double = makeMultiplier(2);
+
 const triple = makeMultiplier(3);
 
-console.log(double(5), triple(5));
 
-// Output:
-// 10 15
+console.log(double(5));
+
+console.log(triple(5));
 
 
-// Task 4.4 — Greeter
-console.log("\nTask 4.4 — Greeter");
+// Task 4.4 - Greeter
 
 function makeGreeter(greeting) {
     return function (name) {
@@ -352,46 +268,43 @@ function makeGreeter(greeting) {
     };
 }
 
-const greetNamaste = makeGreeter("Namaste");
 
-console.log(greetNamaste("Aditi"));
-
-// Output:
-// Namaste, Aditi!
+console.log(makeGreeter("Namaste")("Aditi"));
 
 
-// Task 4.5 — Chai Counter
-console.log("\nTask 4.5 — Chai Counter");
+// Task 4.5 - Chai Counter
 
 function makeCupCounter() {
     let cups = 0;
 
     return function () {
         cups++;
+
         return "Cup number " + cups + " of chai";
     };
 }
 
-const chaiForAditi = makeCupCounter();
-const chaiForRahul = makeCupCounter();
 
-console.log(chaiForAditi());
-console.log(chaiForAditi());
-console.log(chaiForAditi());
+const friend1 = makeCupCounter();
 
-console.log(chaiForRahul());
-console.log(chaiForRahul());
+const friend2 = makeCupCounter();
 
 
-// ============================================================
-// PART 5 — PRIVATE DATA WITH CLOSURES
-// ============================================================
+console.log(friend1());
 
-console.log("\n========== PART 5 — PRIVATE DATA WITH CLOSURES ==========");
+console.log(friend1());
+
+console.log(friend1());
 
 
-// Guided Example — Wallet
-console.log("\nGuided Example — Wallet");
+console.log(friend2());
+
+console.log(friend2());
+
+
+// Part 5 - Private Data with Closures
+
+// Task 5.1 - Wallet
 
 function createWallet(start) {
     let balance = start;
@@ -399,6 +312,7 @@ function createWallet(start) {
     return {
         add(n) {
             balance += n;
+
             return balance;
         },
 
@@ -408,6 +322,7 @@ function createWallet(start) {
             }
 
             balance -= n;
+
             return balance;
         },
 
@@ -417,31 +332,29 @@ function createWallet(start) {
     };
 }
 
+
 const wallet = createWallet(100);
 
+
 console.log(wallet.add(50));
+
 console.log(wallet.spend(30));
+
 console.log(wallet.spend(500));
+
 console.log(wallet.show());
+
 console.log(wallet.balance);
 
 
-// Task 5.1
-console.log("\nTask 5.1 — Private Wallet Data");
+// Task 5.1 - Cheat Test
 
 wallet.balance = 99999;
 
-console.log("wallet.balance =", wallet.balance);
-console.log("wallet.show() =", wallet.show());
-
-console.log(
-    "Reason: balance inside the closure is private. " +
-    "Changing wallet.balance creates a separate public property."
-);
+console.log(wallet.show());
 
 
-// Task 5.2 — Reset
-console.log("\nTask 5.2 — Wallet Reset");
+// Task 5.2 - Reset
 
 function createWalletWithReset(start) {
     let balance = start;
@@ -449,6 +362,7 @@ function createWalletWithReset(start) {
     return {
         add(n) {
             balance += n;
+
             return balance;
         },
 
@@ -458,6 +372,7 @@ function createWalletWithReset(start) {
             }
 
             balance -= n;
+
             return balance;
         },
 
@@ -467,20 +382,24 @@ function createWalletWithReset(start) {
 
         reset() {
             balance = start;
+
             return balance;
         }
     };
 }
 
+
 const resetWallet = createWalletWithReset(500);
 
-console.log("After add:", resetWallet.add(200));
-console.log("After spend:", resetWallet.spend(100));
-console.log("After reset:", resetWallet.reset());
+
+console.log(resetWallet.add(100));
+
+console.log(resetWallet.spend(50));
+
+console.log(resetWallet.reset());
 
 
-// Task 5.3 — Login Guard
-console.log("\nTask 5.3 — Login Guard");
+// Task 5.3 - Login Guard
 
 function limiter(max) {
     let used = 0;
@@ -488,6 +407,7 @@ function limiter(max) {
     return function () {
         if (used < max) {
             used++;
+
             return "Attempt " + used + " of " + max;
         }
 
@@ -495,16 +415,20 @@ function limiter(max) {
     };
 }
 
+
 const tryLogin = limiter(3);
 
+
 console.log(tryLogin());
+
 console.log(tryLogin());
+
 console.log(tryLogin());
+
 console.log(tryLogin());
 
 
-// Task 5.4 — Secret Diary
-console.log("\nTask 5.4 — Secret Diary");
+// Task 5.4 - Secret Diary
 
 function createDiary() {
     const entries = [];
@@ -520,135 +444,80 @@ function createDiary() {
     };
 }
 
+
 const diary = createDiary();
 
-diary.write("Today I learned JavaScript.");
-diary.write("Closures are powerful.");
-diary.write("I practiced hoisting.");
 
-console.log("Diary:", diary.read());
+diary.write("Learned closures.");
 
-console.log("Trying direct access:", diary.entries);
-
-// diary.entries is undefined because entries is private.
+diary.write("Practiced JavaScript.");
 
 
+console.log(diary.read());
 
-// PART 6 — CLOSURES IN LOOPS
-
-
-console.log("\n========== PART 6 — CLOSURES IN LOOPS ==========");
+console.log(diary.entries);
 
 
-// Task 6.1
-console.log("\nTask 6.1");
+// Part 6 - Closures in Loops
+
+// Task 6.1 - var
 
 const withVar = [];
+
 
 for (var i = 0; i < 3; i++) {
     withVar.push(() => i);
 }
 
-console.log("withVar:", withVar.map(f => f()));
 
+console.log(withVar.map(f => f()));
+
+
+// Task 6.1 - let
 
 const withLet = [];
+
 
 for (let j = 0; j < 3; j++) {
     withLet.push(() => j);
 }
 
-console.log("withLet:", withLet.map(f => f()));
 
-// Output:
-// withVar: [3, 3, 3]
-// withLet: [0, 1, 2]
-
-// Explanation:
-// var creates one shared variable i for the whole loop.
-// After the loop, i is 3, so all functions return 3.
-//
-// let creates a new binding for each loop iteration.
-// Therefore each function remembers its own value: 0, 1 and 2.
+console.log(withLet.map(f => f()));
 
 
-// Task 6.2 — Timer Version
-console.log("\nTask 6.2 — Timer Version");
+// Task 6.2 - Timer Version
 
 for (var k = 1; k <= 3; k++) {
     setTimeout(() => console.log("var:", k), 1000);
 }
 
+
 for (let m = 1; m <= 3; m++) {
     setTimeout(() => console.log("let:", m), 1000);
 }
 
-// Expected after about 1 second:
-// var: 4
-// var: 4
-// var: 4
-// let: 1
-// let: 2
-// let: 3
+
+// Task 6.3 - Fix the Bug
+
+for (let n = 1; n <= 3; n++) {
+    setTimeout(() => console.log("fixed:", n), 1000);
+}
 
 
-// Task 6.3 — Fix the Bug
-console.log("\nTask 6.3 — Fix the Bug");
+// Part 7 - Mini Project: Smart Wallet with Login Guard
 
-console.log("Change only ONE word: var -> let");
-
-
-
-// PART 7 — MINI PROJECT: SMART WALLET WITH LOGIN GUARD
-
-console.log("\n========== PART 7 — SMART WALLET ==========");
-
-
-// Main code is intentionally placed before function declarations.
-// Function declarations are hoisted.
-
-const smartWallet = createSmartWallet(500);
-const pinGuard = limiter(3);
-
-console.log("\nStarting balance:", smartWallet.show());
-
-console.log("Add 200:", smartWallet.add(200));
-
-console.log("\nPIN check before spend:");
-console.log(pinGuard());
-
-console.log("Spend 150:", smartWallet.spend(150));
-
-console.log("\nPIN check before spend:");
-console.log(pinGuard());
-
-console.log("Spend 1000:", smartWallet.spend(1000));
-
-console.log("\nFinal balance:", smartWallet.show());
-
-console.log("\nTransaction History:");
-
-smartWallet.history().forEach(function (item) {
-    console.log(item);
-});
-
-console.log("\nFinal Summary:");
-console.log(
-    "Started with 500, added 200, spent 150. " +
-    "Final balance = " +
-    smartWallet.show()
-);
-
-
-// Smart Wallet Function
 function createSmartWallet(start) {
     let balance = start;
-    const transactions = [];
+
+    const records = [];
 
     return {
         add(n) {
             balance += n;
-            transactions.push("Added " + n);
+
+            records.push("Added " + n);
+
             return balance;
         },
 
@@ -658,7 +527,9 @@ function createSmartWallet(start) {
             }
 
             balance -= n;
-            transactions.push("Spent " + n);
+
+            records.push("Spent " + n);
+
             return balance;
         },
 
@@ -667,14 +538,55 @@ function createSmartWallet(start) {
         },
 
         history() {
-            return transactions.slice();
+            return records.slice();
         }
     };
 }
 
 
-// Bonus — Discount Factory
-console.log("\nBonus — Discount Factory");
+function loginLimiter(max) {
+    let used = 0;
+
+    return function () {
+        if (used < max) {
+            used++;
+
+            return "Attempt " + used + " of " + max;
+        }
+
+        return "Locked!";
+    };
+}
+
+
+const smartWallet = createSmartWallet(500);
+
+const pinGuard = loginLimiter(3);
+
+
+console.log("Starting balance:", smartWallet.show());
+
+console.log("Add 200:", smartWallet.add(200));
+
+console.log("PIN:", pinGuard());
+
+console.log("Spend 150:", smartWallet.spend(150));
+
+console.log("PIN:", pinGuard());
+
+console.log("Spend 1000:", smartWallet.spend(1000));
+
+console.log("Final balance:", smartWallet.show());
+
+console.log("History:", smartWallet.history());
+
+console.log(
+    "Final Summary: Started with 500, added 200, spent 150. Final balance =",
+    smartWallet.show()
+);
+
+
+// Bonus - Discount Factory
 
 function makeDiscount(percent) {
     return function (price) {
@@ -682,43 +594,22 @@ function makeDiscount(percent) {
     };
 }
 
+
 const festive = makeDiscount(10);
 
-console.log("Festive discount on 500:", festive(500));
-
-// Output:
-// 450
+console.log(festive(500));
 
 
+// Part 8 - Debugging Challenge
 
-// PART 8 — DEBUGGING CHALLENGE
-
-
-console.log("\n========== PART 8 — DEBUGGING CHALLENGE ==========");
-
-
-
-// Snippet 1
-
-
-console.log("\nSnippet 1 — Fixed");
+// Snippet 1 - Fix
 
 var total = 5;
+
 console.log(total);
 
-// Problem:
-// console.log(total) was before the assignment,
-// so it printed undefined.
-//
-// Fix:
-// Move the declaration/assignment before console.log().
 
-
-
-// Snippet 2
-
-
-console.log("\nSnippet 2 — Fixed");
+// Snippet 2 - Fix
 
 var greet = function () {
     console.log("Hi");
@@ -726,84 +617,38 @@ var greet = function () {
 
 greet();
 
-// Problem:
-// Calling greet() before assigning the function makes greet
-// undefined, causing a TypeError.
-//
-// Fix:
-// Assign the function first, then call it.
 
+// Snippet 3 - Fix
 
-
-// Snippet 3
-
-
-console.log("\nSnippet 3 — Fixed");
-
-function makeCounterFixed() {
+function makeCounter2() {
     let c = 0;
 
     return function () {
         c++;
+
         return c;
     };
 }
 
-const next = makeCounterFixed();
+
+const next = makeCounter2();
 
 console.log(next(), next());
 
-// Output:
-// 1 2
 
-// Problem:
-// The original function returned c++, which is a number.
-// It did not return a function.
-// The fixed version returns an inner function that remembers c.
+// Snippet 4 - Fix
 
-
-
-// Snippet 4
-
-
-console.log("\nSnippet 4 — Fixed");
-
-function makeCounter2Fixed() {
+function makeCounter3() {
     let count = 0;
 
     return function () {
         count++;
+
         return count;
     };
 }
 
-const n = makeCounter2Fixed();
+
+const n = makeCounter3();
 
 console.log(n(), n(), n());
-
-// Output:
-// 1 2 3
-
-// Problem:
-// In the original code, count was declared inside the returned
-// function, so a new count = 0 was created every time.
-// Moving count outside the inner function allows the closure
-// to remember it.
-
-
-
-// FINAL SUMMARY
-
-
-
-console.log("LAB 6 COMPLETED");
-console.log("Topics covered:");
-console.log("1. var hoisting");
-console.log("2. Function hoisting");
-console.log("3. let, const and TDZ");
-console.log("4. Closures");
-console.log("5. Private data");
-console.log("6. Closure counters");
-console.log("7. Closures in loops");
-console.log("8. Smart Wallet");
-console.log("9. Debugging hoisting and closure bugs");
